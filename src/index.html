@@ -10,29 +10,38 @@
     content="ie=edge"
     http-equiv="X-UA-Compatible"
   >
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Lato&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="./index.css"
+  >
   <title>Items</title>
 </head>
 <body>
 
-  <header>
-    <h1>Items</h1>
-  </header>
+  <div id="container">
 
-  <main>
+    <header>
+      <h1>Items</h1>
+    </header>
 
-    <form>
-      <input type="text">
-      <button type="submit">New Item</button>
-    </form>
+    <main>
 
-    <hr>
+      <form id="item-form">
+        <label>
+          <input name="item" type="text">
+          <button type="submit" class="btn-new">New Item</button>
+        </label>
+      </form>
 
-    <div>
-      <input type="text">
-      <button type="submit">Delete</button>
-    </div>
+      <hr>
 
-  </main>
+      <div id="items-list"></div>
+
+    </main>
+
+  </div>
 
   <script src="index.js"></script>
 </body>
