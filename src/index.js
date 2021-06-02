@@ -51,7 +51,7 @@ itemForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const newItem = event.target.item.value.trim();
 
-  if (!items.includes(newItem)) {
+  if (!items.includes(newItem) && newItem) {
     event.target.item.value = ''
     addItemToStorage(newItem, items);
     addItemToList(newItem, items);
