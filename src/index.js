@@ -1,20 +1,19 @@
 const itemForm = document.querySelector('#item-form');
 const itemsList = document.querySelector('#items-list');
 
-const addItemToStorage = (itemToAdd) => {
-  const items = JSON.parse(window.localStorage.getItem('items'));
-  items.unshift(itemToAdd);
-  window.localStorage.setItem('items', JSON.stringify(items));
+const items = JSON.parse(window.localStorage.getItem('items')) || [];
+
+const addItemToStorage = (itemToAdd, storage) => {
+  storage.unshift(itemToAdd);
+  window.localStorage.setItem('items', JSON.stringify(storage));
 };
 
-const removeItemFromStorage = (itemToDelete) => {
-  const items = JSON.parse(window.localStorage.getItem('items'));
-
-  const updatedItems = items.filter((currentItem) => currentItem !== itemToDelete);
+const removeItemFromStorage = (itemToDelete, storage) => {
+  const updatedItems = storage.filter((currentItem) => currentItem !== itemToDelete);
   window.localStorage.setItem('items', JSON.stringify(updatedItems));
 };
 
-const addItemToList = (item) => {
+const addItemToList = (item, storage) => {
   const label = document.createElement('label');
   label.id = item;
 
@@ -27,7 +26,7 @@ const addItemToList = (item) => {
   button.classList.add('btn-delete')
 
   button.addEventListener('click', () => {
-    removeItemFromStorage(item);
+    removeItemFromStorage(item, storage);
     const itemElement = document.querySelector(`#${item}`);
     itemElement.remove();
   });
@@ -38,26 +37,23 @@ const addItemToList = (item) => {
   itemsList.insertBefore(label, itemsList.firstChild);
 };
 
+const initializeItemsList = (storage) => {
+  storage.reverse().forEach((item) => {
+    addItemToList(item, storage);
+  });
+};
+
+if (items) {
+  initializeItemsList(items);
+}
+
 itemForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const newItem = event.target.item.value.trim();
 
-  const items = JSON.parse(window.localStorage.getItem('items'));
-
   if (!items.includes(newItem)) {
     event.target.item.value = ''
-    addItemToStorage(newItem);
-    addItemToList(newItem);
+    addItemToStorage(newItem, items);
+    addItemToList(newItem, items);
   }
 });
-
-const initializeItemsList = () => {
-  const items = JSON.parse(window.localStorage.getItem('items')) || [];
-
-  items.reverse().forEach((item) => {
-    addItemToList(item);
-  });
-};
-
-initializeItemsList();
-
